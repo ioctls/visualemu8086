@@ -43,8 +43,12 @@ class special_var(object):
 		self.val = value
 		while(self.val > 65535):
 			self.val -= 65536
-		reg[self.order].val = int(hex(self.val)[2:-2], 16)
-		reg[self.order + 1].val = int(hex(self.val)[-2:], 16)				
+		if(self.val > 255):
+			reg[self.order].val = int(hex(self.val)[2:-2], 16)
+			reg[self.order + 1].val = int(hex(self.val)[-2:], 16)
+		else:
+			reg[self.order].val = 0
+			reg[self.order + 1].val = self.val
 ah = var_8()
 al = var_8()
 bh = var_8()
@@ -75,7 +79,9 @@ def declaresynerror():
 def printstate():
 	for item in reg:
 		print item.val,
-	print "next"
+	print ""
+	for item in stack:
+		print item
 def extract(string):
 	if('$' in string):
 		#convert into decimal or convert decimal to hex
@@ -128,7 +134,7 @@ def fpush(source):
 	if(modes == 1):
 		declaresynerror()
 		#add more stuff for error
-	if(lookup3[vald] < 13):
+	if(lookup3[vals] < 13):
 		print "Cant push 1 byte registers"
 		declaresynerror()
 	stack.append(reg[lookup3[vals]].val)
@@ -176,6 +182,7 @@ def fmul(source):
 			while(reg[a].val > 65535):
 				reg[a].val -= 65536
 				reg[c].val += 1
+				declareoverflow()
 			reg[a].valoverride(reg[a].val)
 			reg[c].valoverride(reg[c].val)
 			return
