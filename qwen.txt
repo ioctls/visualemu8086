@@ -1,0 +1,21 @@
+.code
+mov ah, 201
+mov bh, 100
+sub ah, bh
+xchg ah, bh
+mov al, 20
+mul bh
+mul bh
+inc bl
+dec bh
+mul ax
+push ax
+not bh
+mov bl, 12h
+mul bl
+pop ax
+mov ch, 07h
+mul ch
+or ch, bh
+and bh, ch
+

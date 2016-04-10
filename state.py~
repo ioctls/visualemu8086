@@ -55,12 +55,9 @@ class special_var(object):
 		self.val = value
 		while(self.val > 65535):
 			self.val -= 65536
-		if(self.val > 255):
-			reg[self.order].val = int(hex(self.val)[2:-2], 16)
-			reg[self.order + 1].val = int(hex(self.val)[-2:], 16)
-		else:
-			reg[self.order].val = 0
-			reg[self.order + 1].val = self.val
+		reg[self.order].val = int(hex(self.val)[2:-2], 16)
+		reg[self.order + 1].val = int(hex(self.val)[-2:], 16)
+
 
 ah = var_8()
 al = var_8()
@@ -85,3 +82,22 @@ cx = special_var(5)
 dx = special_var(7)
 
 reg = [virgin, ah, al, bh, bl, ch, cl, dh, dl, di, si, bp, sp, ds, es, ss, cs, ax, bx, cx, dx]
+
+
+def action(lines) :
+	for line in lines:
+		#print columns
+		if(line == '\n'):
+			pass
+		else:
+			columns = line.split(" ")
+			lkey = lookup2[int(columns[0])]
+			try:
+				func.listoffunctions[lkey](columns[1], columns[2])
+			except:
+				try:
+					func.listoffunctions[lkey](columns[1])
+				except:
+					func.listoffunctions[lkey]()
+		func.printstate()
+		

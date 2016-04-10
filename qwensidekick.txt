@@ -1,0 +1,20 @@
+mov ah 201$ 
+mov bh 100$ 
+sub ah bh 
+xchg ah bh 
+mov al 20$ 
+mul bh 
+mul bh 
+inc bl 
+dec bh 
+mul ax 
+push ax 
+not bh 
+mov bl 18$ 
+mul bl 
+pop ax 
+mov ch 7$ 
+mul ch 
+or ch bh 
+and bh ch 
+

@@ -10,7 +10,9 @@ def declaresynerror():
 def printstate():
 	for item in reg:
 		print item.val,
-	print "next"
+	print ""
+	for item in stack:
+		print item
 def extract(string):
 	if('$' in string):
 		#convert into decimal or convert decimal to hex
@@ -63,7 +65,7 @@ def fpush(source):
 	if(modes == 1):
 		declaresynerror()
 		#add more stuff for error
-	if(lookup3[vald] < 13):
+	if(lookup3[vals] < 13):
 		print "Cant push 1 byte registers"
 		declaresynerror()
 	stack.append(reg[lookup3[vals]].val)
