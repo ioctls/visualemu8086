@@ -1,3 +1,0 @@
-mov bl 3$ 
-mov al 1$ 
-mul bl 
