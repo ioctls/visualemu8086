@@ -1,4 +1,0 @@
-.code
-	mov bl, 03h
-	mov al, 01h
-	mul bl
