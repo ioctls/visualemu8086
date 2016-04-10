@@ -8,9 +8,11 @@ mul bh
 inc bl
 dec bh
 mul ax
+push ax
 not bh
 mov bl, 12h
 mul bl
+pop ax
 mov ch, 07h
 mul ch
 or ch, bh

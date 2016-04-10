@@ -10,6 +10,7 @@ import sys
 import ctypes
 import func
 import state
+from table import *
 
 lookup = {'a':1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8, 'i':9, 'j':10, 'k':11,'l':12,'m':13,'n':14,'o':15,'p':16,'q':17,'r':18,'s':19,'t':20,'u':21, 'v':22, 'w':23,'x':24,'y':25,'z':26}
 
@@ -35,14 +36,14 @@ def set_stack_size(size):
 
 
 #Function to split the line into segments sep with a spcae
-def l_split(a, line) :
+def l_split(a, line):
 	str_c = ""
 	b = 0
 	for i in line :
-		if(i.isalnum()) :
+		if(i.isalnum()):
 			str_c = str_c + i
 			b = 1
-		elif(b == 1) :
+		elif(b == 1):
 			a.append(str_c)
 			str_c = ""
 			b = 0	
@@ -60,45 +61,33 @@ fileout = open(c, "w")
 
 #Get the input of lines from the file given by user
 lines2 = filein.readlines()
-print lines2
-
 #Done Optimization for now.. Only HEx Conversion not working
 for line in lines2:
 	if(line[0] == '.'):
-		print "IN here"
 		if(line[1:6] == 'model'):
 			set_model(line[7:])
 		elif(line[1:6] == 'stack'):
 			set_stack_size(int(line[7:]))
 		elif(line[1:] == 'data'):
 			pass		
-		elif(line[1:] == 'code\n'):
-			print "code"	#skipping elements in loop, append to dictionary, dont write till '.code'
+		elif(line[1:] == 'code\n'):	#skipping elements in loop, append to dictionary, dont write till '.code'
  			code = True
- 			continue		#how to differentiate in modes if appended mem to dictionary? make new dict for bss 							
-                                  #and use try everywhere ref takes place, using mode in except!
-	#else:
-	print code
-    	if(code == True):
-            columns = []
-            l_split(columns, line)
-            print "LLLKKAKL ", 
-            print columns
-	    for item in columns:
-	    	    #print item
-	    	    #print "HAHAH"
-		    if(num_there(item)):
-                # Add '$'in the end to indicate a no (hex or decimal)
-			    if(item[-1] == 'h'):
-					item = item.replace(item, str(int(item[:-1], 16))+ '$') 
-			    else:
-					item = item.replace(item, item + '$')					 
-	    	    fileout.write(item)
-	    	    fileout.write(" ") #Does this add a space after every write??
-	    fileout.write("\n")    
-
-#Loop Ends
-
+ 			#continue	#how to differentiate in modes if appended mem to dictionary? make new dict for bss      
+	#columns = []        
+	#l_split(columns, line)
+	else:
+		columns = line.split(" ")
+		for item in columns:
+			if(item == columns[len(columns) - 1]):
+				temp = '$\n'
+			else:
+				temp = '$,'
+			if(num_there(item)):
+				if(item[-2] == 'h'):
+					line = line.replace(item, str(int(item[:-2], 16)) + temp) #hex to int!
+				else:
+					line = line.replace(item, item[:-1] + temp)	
+		fileout.write(line)
 filein.close()
 fileout.close()
 
@@ -116,12 +105,25 @@ with open(c) as filein:
 			f.write(str(d))
 		except:
 			d = cha
-			f.write(d)
+			if(d != ','):
+				f.write(d)
+			else:
+				f.write('')
 f.close()
-
 filein = open(b)
 lines = filein.readlines()
-
-print lines
-state.action(lines)
-
+for line in lines:
+	if(line == '\n'):
+		pass
+	else:
+		columns = line.split(" ")
+		lkey = lookup2[int(columns[0])]
+		try:
+			func.listoffunctions[lkey](columns[1], columns[2])
+		except:
+			try:
+				func.listoffunctions[lkey](columns[1])
+			except:
+				func.listoffunctions[lkey]()
+	func.printstate()
+		
