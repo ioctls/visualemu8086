@@ -32,9 +32,6 @@ def set_model(a):
 def set_stack_size(size):
 	stack_size = size 
 
-
-
-
 #Function to split the line into segments sep with a spcae
 def l_split(a, line):
 	str_c = ""
@@ -47,8 +44,6 @@ def l_split(a, line):
 			a.append(str_c)
 			str_c = ""
 			b = 0	
-
-
 
 #Here lies the snippet to convert given file to appropriate format to read for the gui
 
