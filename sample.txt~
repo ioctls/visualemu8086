@@ -1,3 +1,0 @@
-.code
-	mov ax, 05
-	add ax, 03h

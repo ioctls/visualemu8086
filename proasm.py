@@ -21,8 +21,9 @@ code = False
 
 
 #defining functions to do operations of the 8086 commands
-
-
+linestat = 1
+model = ""
+stack_size = -1
 # Func returns true if given string has at least one digit
 def num_there(s):
 	return any(i.isdigit() for i in s)
@@ -46,7 +47,25 @@ def l_split(a, line):
 			b = 0	
 
 #Here lies the snippet to convert given file to appropriate format to read for the gui
-
+def startup():
+	if(model != ""):
+		print "Model ",
+		print model
+		#linestat = linestat + 1
+	else:
+		print "No model defined, but we got Akshay G, so we will run your program anyway."
+	if(stack_size > 0):
+		print "Size of stack is ",	#use len in push and pop
+		print stack_size
+		#linestat += 1
+	else:
+		print "Warning, no stack delacred. But we are awesome, so we will run your program anyway."	#disable push pop
+	if(code):
+		print ".code initialized"
+		#linestat = linestat + 1						#do something for .data
+	else:
+		print "No '.code' section found, but we are awesome, so we will run your program anyway."
+	print "We'll start with all flags with access set to 0."
 a = raw_input("Enter file name: ")
 filein = open(a)
 
@@ -71,11 +90,7 @@ for line in lines2:
 	if(code == True) :     
 		columns = []  
 		l_split(columns, line)
-	 	print "LLLKKAKL ", 
-        	print columns
 	    	for item in columns:
-	    	    #print item
-	    	    #print "HAHAH"
 		    if(num_there(item)):
                 # Add '$'in the end to indicate a no (hex or decimal)
 			    if(item[-1] == 'h'):
@@ -88,6 +103,7 @@ for line in lines2:
 filein.close()
 fileout.close()
 
+startup()
 
 b = c[:-4] + "_temp_working_file.txt"
 f = open(b, "w")
@@ -112,7 +128,6 @@ for line in lines:
 		pass
 	else:
 		columns = line.split(" ")
-		print "HEY"
 		lkey = lookup2[int(columns[0])]
 		try:
 			func.listoffunctions[lkey](columns[1], columns[2])
@@ -121,5 +136,7 @@ for line in lines:
 				func.listoffunctions[lkey](columns[1])
 			except:
 				func.listoffunctions[lkey]()
+	print lines2[linestat]
+	linestat = linestat + 1
 	func.printstate()
 		

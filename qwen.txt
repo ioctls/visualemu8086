@@ -1,8 +1,4 @@
 .code
-<<<<<<< HEAD
-
-=======
->>>>>>> 4de1e130f491496e0227b14e0e5db2f0f005c4f5
 mov ah, 201
 mov bh, 100
 sub ah, bh
