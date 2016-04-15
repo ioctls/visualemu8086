@@ -63,7 +63,7 @@ class var_16(object):
 	def __init__(self):
 		self.val = 0000
 	def update(self):
-		if(self.val > 0):
+		if(self.val > 65535):
 			while(self.val > 65535):
 				self.val -= 65536
 			flags.b.carry = 1

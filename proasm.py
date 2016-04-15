@@ -93,10 +93,10 @@ for line in lines2:
 	    	for item in columns:
 		    if(num_there(item)):
                 # Add '$'in the end to indicate a no (hex or decimal)
-			    if(item[-1] == 'h'):
-					item = item.replace(item, str(int(item[:-1], 16))+ '$') 
-			    else:
-					item = item.replace(item, item + '$')					 
+			if(item[-1] == 'h'):
+				item = item.replace(item, str(int(item[:-1], 16))+ '$') 
+			else:
+				item = item.replace(item, item + '$')					 
 	    	    fileout.write(item)
 	    	    fileout.write(" ") #Does this add a space after every write??
 	    	fileout.write("\n")    
