@@ -165,7 +165,7 @@ dx = special_var(7)
 
 flags = Flags()
 flags.asbyte = 0x0
-flags.b.I/O_Privilege_b_0 = 
+#flags.b.I/O_Privilege_b_0 = 
 flags.b.Nested_f = 1
 flags.b.reserved_15 = 1
 
