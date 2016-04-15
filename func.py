@@ -29,29 +29,6 @@ def printstate():
 	print flags.b.carry
 	print "\n"
 
-def checkoverflow(key):
-	if(key < 9) :
-		#pass
-		#FOR Overflow					#push this in update()
-		if(reg[key].val == 128) :
-			flags.b.overflow = 1			#this is Akshay G
-	elif(reg[key].val == 32768) :
-		flags.b.overflow = 1 	
-	if(reg[key].val == 0) :
-		flags.b.carry = 1
-		flags.b.zero  = 1 
-		flags.b.overflow = 1
-	
-def updateacflag(temp):
-	ac = 0
-	temp -= 1
-	for i in range(4) :
-		if(temp & 1 == 1) :
-			ac = ac + 1
-		temp = temp >> 1	
-	if(ac == 4) :
-		flags.b.ac = 1 						
- 	return
 
 def updatedep(plan):
 	if(plan <= 2):
@@ -121,8 +98,22 @@ def finc(dest):						#manage ax, bx, cx, dx in another list, split values? hex?
 		reg[lookup3[vald]].valoverride(reg[lookup3[vald]].val)	
 	
 	#Updating the Flag Register, do for overflow
-	if(lookup3[vald] > 16):
-		updateacflag(reg[lookup3[vald]].val)
+	#For overflow
+	if(reg[lookup3[vald]].val == 128 or reg[lookup3[vald]].val == 32768 or 
+		reg[lookup3[vald]].val == 0) :
+		flags.b.overflow = 1
+	
+	#FOr Aux Carry
+	temp = reg[lookup3[vald]].val - 1
+	ac = 0
+	
+	for i in range(4) :
+		if(temp & 1 == 1) :
+			ac = ac + 1
+		temp = temp >> 1	
+	if(ac == 4) :
+		flags.b.ac = 1 
+		
 	
 	
 def fpop(dest):
@@ -159,9 +150,13 @@ def fxor(dest, source):
 			declaresynerror()
 			print "Size mis-match"
 			return
+		temp_p = reg[lookup3[vald]].val
+		temp_a = vals	
 		reg[lookup3[vald]].val ^= vals
 	if(modes == 0 and moded == 0):
 		if((lookup3[vald] < 10 and lookup3[vals] < 10) or (lookup3[vald] > 16 and lookup3[vals] > 16)) :
+			temp_p = reg[lookup3[vald]].val
+			temp_a = reg[lookup3[vals]].val
 			reg[lookup3[vald]].val ^= reg[lookup3[vals]].val
 		else: 	
 			print "type mis-match"
@@ -172,7 +167,15 @@ def fxor(dest, source):
 		updatedep(lookup3[vald])
 	else:
 		reg[lookup3[vald]].valoverride(reg[lookup3[vald]].val)
-		#overflowcheck()					
+		#overflowcheck()
+	if(lookup3[vald] < 10) :
+		if((temp_p > 127 and temp_a > 127) or (temp_p <= 127 and temp_a > 127) or (temp_p > 127 and temp_a <= 127)):
+			flags.b.overflow = 1
+	else:		
+		if ((temp_p > 32767 and temp_a > 32767) or (temp_p <= 32767 and temp_a > 32767) or(temp_p > 32767 and temp_a <= 32767)):
+			flags.b.overflow = 1	
+	
+							
 def blank():
 	pass
 	
@@ -260,23 +263,39 @@ def fbor(dest, source):
 			declaresynerror()
 			print "Size mis-match"
 			return
+		temp_p = reg[lookup3[vald]].val
+		temp_a = vals	
 		reg[lookup3[vald]].val |= vals
 	if(modes == 0 and moded == 0):
 		if((lookup3[vals] < 13 and lookup3[vald] >= 13) or (lookup3[vald] < 13 and lookup3[vals] >= 13)):
 			declaresynerror()
 			print "Size mis-match"
 			return
+		temp_p = reg[lookup3[vald]].val
+		temp_a = reg[lookup3[vals]].val
 		reg[lookup3[vald]].val |= reg[lookup3[vals]].val
 	if(lookup3[vald] < 13):
 		reg[lookup3[vald]].update()
 		updatedep(lookup3[vald])
 	else:
 		reg[lookup3[vald]].valoverride(reg[lookup3[vald]].val)
+		
+	#For Overflow
+	if(lookup3[vald] < 10):
+		if((temp_p > 127 and temp_a <= 127) or (temp_p <= 127 and temp_a > 127)):
+			flags.b.overflow = 1
+	else:
+		if((temp_p > 32767 and temp_a <= 32767) or (temp_p <= 32767 and temp_a > 32767)):
+			flags.b.overflow = 1		
+	
+		
 	return
 		
 def fand(dest, source):
 	(vald, moded) = extract(dest)
 	(vals, modes) = extract(source)
+	
+	
 	if(moded == 1):
 		declaresynerror()
 		return
@@ -285,18 +304,30 @@ def fand(dest, source):
 			declaresynerror()
 			print "Size mis-match"
 			return
+		temp_p = reg[lookup3[vald]].val
+		temp_a = vals	
 		reg[lookup3[vald]].val = reg[lookup3[vald]].val & vals
 	if(modes == 0 and moded == 0):
 		if((lookup3[vals] < 13 and lookup3[vald] >= 13) or (lookup3[vald] < 13 and lookup3[vals] >= 13)):
 			declaresynerror()
 			print "Size mis-match"
 			return
+		temp_p = reg[lookup3[vald]].val
+		temp_a = reg[lookup3[vals]].val	
 		reg[lookup3[vald]].val &= reg[lookup3[vals]].val
 	if(lookup3[vald] < 13):
 		reg[lookup3[vald]].update()
 		updatedep(lookup3[vald])
 	else:
 		reg[lookup3[vald]].valoverride(reg[lookup3[vald]].val)
+		
+	#For overflow 
+	if(lookup3[vald] < 10):
+		if((temp_p <= 127 and temp_a > 127) or (temp_p > 127 and temp_a <= 127)):
+			flags.b.overflow = 1
+	else:
+		if((temp_p <= 32767 and temp_a > 32767) or (temp_p > 32767 and temp_a <= 32767)):
+			flags.b.overflow = 1			
 				
 		
 def fdec(dest):
@@ -306,13 +337,24 @@ def fdec(dest):
 		return
 	reg[lookup3[vald]].val -= 1
 	if(lookup3[vald] < 13):
-		reg[lookup3[vald]].update
+		reg[lookup3[vald]].update()
 		updatedep(lookup3[vald])
 	else:
 		reg[lookup3[vald]].valoverride(reg[lookup3[vald]].val)
-	checkoverflow(lookup3[vald])
-	if(lookup3[vald] > 16):
-		updateacflag(reg[lookup3[vald]].val)
+	
+	if(reg[lookup3[vald]].val == 127 or reg[lookup3[vald]].val == 255 or reg[lookup3[vald]].val == 32767 or 
+		reg[lookup3[vald]].val == 65535) :
+		flags.b.overflow = 1
+	
+	temp_p = reg[lookup3[vald]].val + 1
+	ac = 0	
+	
+	for i in range(4) :
+		if((temp_p & 1) == 0):
+			ac = ac + 1
+		temp_p = temp_p >> 1
+	if(ac == 4):
+		flags.b.ac = 1							
 
 def fdiv(source):
 	a = 17							#cite! make ax from ah and al for every update of ah and al
@@ -352,8 +394,21 @@ def fsub(dest, source):
 		updatedep(lookup3[vald])
 	else:
 		reg[lookup3[vald]].valoverride(reg[lookup3[vald]].val)	
-	if(lookup3[vald] > 16):
-		updateacflag(reg[lookup3[vald]].val)	 
+	
+	#For Aux Carry
+	
+	c = 0
+	for i in range(4) :
+		if((temp & 1 - c) >= (temp_0 & 1)):
+			c = 0
+		else:
+			c = 1
+		temp = temp >> 1
+		temp_0 = temp_0 >> 1		
+	if(c == 1):
+		flags.b.ac = 1	 
+	
+		
 		
 def fadd(dest, source) :
 	(vald, moded) = extract(dest)
@@ -390,9 +445,19 @@ def fadd(dest, source) :
 	else:
 		reg[lookup3[vald]].valoverride(reg[lookup3[vald]].val)	
 		 	
-	if(lookup3[vald] > 16):
-		updateacflag(reg[lookup3[vald]].val)
-
+	#For Ac flag 
+	c = 0
+	for i in range(4) :
+		if(((temp & 1) & (temp_0 & 1))  == 1): #Carry there
+			c = 1
+		else:
+			c = 0
+		temp = temp >> 1
+		temp_0 = temp_0 >> 1		
+	if(c == 1):
+		flags.b.ac = 1			
+			
+	
 def fstc():
 	flags.b.carry = 1
 

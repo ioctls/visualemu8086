@@ -1,3 +1,4 @@
 .code
-	mov ax, 65535
-	add ax, 03h
+	mov ah, 01
+	mov bl, 05
+	add al , bl
