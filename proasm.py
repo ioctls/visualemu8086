@@ -21,7 +21,7 @@ code = False
 
 
 #defining functions to do operations of the 8086 commands
-linestat = 1
+linestat = 1 #CHANGED HERE
 model = ""
 stack_size = -1
 # Func returns true if given string has at least one digit
@@ -66,6 +66,7 @@ def startup():
 	else:
 		print "No '.code' section found, but we are awesome, so we will run your program anyway."
 	print "We'll start with all flags with access set to 0."
+	
 a = raw_input("Enter file name: ")
 filein = open(a)
 
@@ -87,19 +88,24 @@ for line in lines2:
 		elif(line[1:] == 'code\n'):	#skipping elements in loop, append to dictionary, dont write till '.code'
  			code = True
  			continue	#how to differentiate in modes if appended mem to dictionary? make new dict for bss       
-	if(code == True) :     
+	if(code == True) :
+		buf = 0 
+		t = 0    
 		columns = []  
 		l_split(columns, line)
+		#print "HEy", len(columns)
 	    	for item in columns:
 		    if(num_there(item)):
+		    	buf = 1
                 # Add '$'in the end to indicate a no (hex or decimal)
 			if(item[-1] == 'h'):
 				item = item.replace(item, str(int(item[:-1], 16))+ '$') 
 			else:
-				item = item.replace(item, item + '$')					 
+				item = item.replace(item, item + '$')								 
 	    	    fileout.write(item)
 	    	    fileout.write(" ") #Does this add a space after every write??
-	    	fileout.write("\n")    
+	    	if(len(columns) != 0):    	
+	    		fileout.write("\n")    
 filein.close()
 fileout.close()
 
@@ -128,6 +134,7 @@ for line in lines:
 		pass
 	else:
 		columns = line.split(" ")
+		#print "HAHAH", columns
 		lkey = lookup2[int(columns[0])]
 		try:
 			func.listoffunctions[lkey](columns[1], columns[2])
@@ -135,8 +142,6 @@ for line in lines:
 			try:
 				func.listoffunctions[lkey](columns[1])
 			except:
-				func.listoffunctions[lkey]()
-	print lines2[linestat]
-	linestat = linestat + 1
+				func.listoffunctions[lkey]()	
 	func.printstate()
 		
