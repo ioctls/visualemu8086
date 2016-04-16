@@ -1,8 +1,9 @@
+.stack 100
+.data
 .code
-
 mov ah, 201
 mov bh, 100
-sub ah, bh      
+sub ah, bh
 xchg ah, bh
 mov al, 20
 mul bh

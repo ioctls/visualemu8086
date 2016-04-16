@@ -10,28 +10,23 @@ import sys
 import ctypes
 import func
 import state
+from state import * 
 from table import *
 
 lookup = {'a':1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8, 'i':9, 'j':10, 'k':11,'l':12,'m':13,'n':14,'o':15,'p':16,'q':17,'r':18,'s':19,'t':20,'u':21, 'v':22, 'w':23,'x':24,'y':25,'z':26}
 
 #Variables defining initialization 
 
-data = 0
 code = False
 
 
-#defining functions to do operations of the 8086 commands
-linestat = 1 #CHANGED HERE
-model = ""
-stack_size = -1
 # Func returns true if given string has at least one digit
 def num_there(s):
 	return any(i.isdigit() for i in s)
-
 def set_model(a):
-	model = a
+	ipass.model = a
 def set_stack_size(size):
-	stack_size = size 
+	ipass.stack = size 
 
 #Function to split the line into segments sep with a spcae
 def l_split(a, line):
@@ -48,25 +43,25 @@ def l_split(a, line):
 
 #Here lies the snippet to convert given file to appropriate format to read for the gui
 def startup():
-	if(model != ""):
+	if(ipass.model != ""):
 		print "Model ",
-		print model
+		print ipass.model[:-1]
 		#linestat = linestat + 1
 	else:
 		print "No model defined, but we got Akshay G, so we will run your program anyway."
-	if(stack_size > 0):
+	if(ipass.stack > 0):
 		print "Size of stack is ",	#use len in push and pop
-		print stack_size
+		print ipass.stack
 		#linestat += 1
 	else:
 		print "Warning, no stack delacred. But we are awesome, so we will run your program anyway."	#disable push pop
-	if(code):
+	if(ipass.code):
 		print ".code initialized"
 		#linestat = linestat + 1						#do something for .data
 	else:
 		print "No '.code' section found, but we are awesome, so we will run your program anyway."
 	print "We'll start with all flags with access set to 0."
-	
+
 a = raw_input("Enter file name: ")
 filein = open(a)
 
@@ -80,23 +75,22 @@ lines2 = filein.readlines()
 for line in lines2:
 	if(line[0] == '.'):
 		if(line[1:6] == 'model'):
-			set_model(line[7:])
+			ipass.model = line[7:]
+			continue
 		elif(line[1:6] == 'stack'):
-			set_stack_size(int(line[7:]))
+			ipass.stack = int(line[7:])
+			continue
 		elif(line[1:] == 'data'):
-			pass		
+			continue		
 		elif(line[1:] == 'code\n'):	#skipping elements in loop, append to dictionary, dont write till '.code'
  			code = True
+			ipass.code = True
  			continue	#how to differentiate in modes if appended mem to dictionary? make new dict for bss       
-	if(code == True) :
-		buf = 0 
-		t = 0    
+	if(code == True):
 		columns = []  
 		l_split(columns, line)
-		#print "HEy", len(columns)
 	    	for item in columns:
 		    if(num_there(item)):
-		    	buf = 1
                 # Add '$'in the end to indicate a no (hex or decimal)
 			if(item[-1] == 'h'):
 				item = item.replace(item, str(int(item[:-1], 16))+ '$') 
@@ -134,7 +128,6 @@ for line in lines:
 		pass
 	else:
 		columns = line.split(" ")
-		#print "HAHAH", columns
 		lkey = lookup2[int(columns[0])]
 		try:
 			func.listoffunctions[lkey](columns[1], columns[2])
@@ -144,4 +137,3 @@ for line in lines:
 			except:
 				func.listoffunctions[lkey]()	
 	func.printstate()
-		

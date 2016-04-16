@@ -139,7 +139,14 @@ class special_var(object):
 			reg[self.order].val = 0
 			reg[self.order + 1].val = self.val
 
+class passer(object):
+	def __init__(self):
+		self.model = ''
+		self.code = False
+		self.data = False
+		self.stack = -1
 
+ipass = passer()
 #CREATING Instances for each variable
 ah = var_8()
 al = var_8()
@@ -169,5 +176,6 @@ flags.asbyte = 0x0
 flags.b.Nested_f = 1
 flags.b.reserved_15 = 1
 
+					#      p   p                               p
 reg = [virgin, ah, al, bh, bl, ch, cl, dh, dl, di, si, bp, sp, ds, es, ss, cs, ax, bx, cx, dx]
-
+#	0       1   2  3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19   20
