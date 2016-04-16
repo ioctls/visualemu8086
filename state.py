@@ -145,6 +145,7 @@ class passer(object):
 		self.code = False
 		self.data = False
 		self.stack = -1
+		self.lcount = 0
 
 ipass = passer()
 #CREATING Instances for each variable

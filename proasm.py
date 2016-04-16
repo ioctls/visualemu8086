@@ -74,6 +74,7 @@ lines2 = filein.readlines()
 #Done Optimization for now.. Only HEx Conversion not working
 for line in lines2:
 	if(line[0] == '.'):
+		ipass.lcount += 1
 		if(line[1:6] == 'model'):
 			ipass.model = line[7:]
 			continue
@@ -89,6 +90,8 @@ for line in lines2:
 	if(code == True):
 		columns = []  
 		l_split(columns, line)
+		if(len(columns) == 0):
+			ipass.lcount += 1 
 	    	for item in columns:
 		    if(num_there(item)):
                 # Add '$'in the end to indicate a no (hex or decimal)
@@ -99,7 +102,9 @@ for line in lines2:
 	    	    fileout.write(item)
 	    	    fileout.write(" ") #Does this add a space after every write??
 	    	if(len(columns) != 0):    	
-	    		fileout.write("\n")    
+	    		fileout.write("\n")
+	else:
+		ipass.lcount += 1	#for blank lines between or before .xyz    
 filein.close()
 fileout.close()
 
@@ -135,5 +140,7 @@ for line in lines:
 			try:
 				func.listoffunctions[lkey](columns[1])
 			except:
-				func.listoffunctions[lkey]()	
+				func.listoffunctions[lkey]()
+		print lines2[ipass.lcount]
+		ipass.lcount += 1		
 	func.printstate()
