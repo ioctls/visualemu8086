@@ -79,7 +79,12 @@ for line in lines2:
 			ipass.model = line[7:]
 			continue
 		elif(line[1:6] == 'stack'):
-			ipass.stack = int(line[7:])
+			line = line.rstrip()
+			get = line[7:]
+			if(get[-1] == 'h'):
+				ipass.stack = int(get[:-1], 16)
+			else:
+				ipass.stack = int(get)
 			continue
 		elif(line[1:] == 'data'):
 			continue		

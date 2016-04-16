@@ -1,8 +1,13 @@
-.stack 100
+.stack 106h
+
+
 .model small
 
 
 .code
+
+
+
 
 
 
