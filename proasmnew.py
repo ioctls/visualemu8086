@@ -18,18 +18,12 @@ from PyQt4.QtCore import *
 from table import *
 import qttable
 
-# Initialising qt table
-app 	= QApplication(sys.argv)
-table 	= QTableWidget()
-tableItem 	= QTableWidgetItem()
-
 lookup = {'a':1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8, 'i':9, 'j':10, 'k':11,'l':12,'m':13,'n':14,'o':15,'p':16,'q':17,'r':18,'s':19,'t':20,'u':21, 'v':22, 'w':23,'x':24,'y':25,'z':26}
 
 #Variables defining initialization 
 
 code = False
 
-dbmg.start_tab()
 
 # Func returns true if given string has at least one digit
 def num_there(s):
@@ -76,6 +70,11 @@ def startup():
 print "\n\n--------------P.A.S.S ASSEMBLER-CUM-DEBUGGER---------------\n"
 a = raw_input("Enter file name: ")
 filein = open(a)
+
+# Initialising qt table
+app = QApplication(sys.argv)
+table = QTableWidget()
+tableItem = QTableWidgetItem()
 
 #To determine the number of rows in the table
 qttable.start(a)
@@ -174,6 +173,8 @@ for line in lines:
                 ipass.lcount += 1               
         if no_print == 0:
                 func.printstate()
+		t = qttable.tables1()
+		qttable.endt()
                 b = raw_input("")
                 if b == 'q':
                         print "Exiting debugger"
@@ -194,6 +195,5 @@ if b != 'd' and b != 'q' and b != 'a':
 print "\n-------------------Assembling mode on-----------------\n"
 print "Status Window has opened in the background, select your choice "
 t = qttable.tables1()
-qttable.endt()
 qttable.endt()
 

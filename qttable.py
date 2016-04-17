@@ -5,12 +5,12 @@ import sys
 from func import *
 from state import *
 from table import *
-app 	= QApplication(sys.argv)
-table 	= QTableWidget()
+app = QApplication(sys.argv)
+table = QTableWidget()
 table1 = QTableWidget()
 table3 = QTableWidget()
 table4 = QTableWidget()
-tableItem 	= QTableWidgetItem()
+tableItem = QTableWidgetItem()
 ex = 0
 row = 0
 def endt():
@@ -31,7 +31,7 @@ class tables1:
         
         z = 10
         # initiate table
-        table.setWindowTitle("P.A.S.S Assembler-cum-Debugger ")
+        table.setWindowTitle("P.A.S.S Assembler-cum-Debugger")
         #table.resize(1380, 80)
         #row = start()
         table.resize(500, 130)#35*row)

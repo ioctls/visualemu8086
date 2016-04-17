@@ -1,14 +1,6 @@
 .stack 106h
 .model small
-
-
 .code
-
-
-
-
-
-
 mov ah, 201
 mov bh, 100
 sub ah, bh

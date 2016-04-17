@@ -4,6 +4,13 @@ import state
 from state import * 
 from table import *				
 
+
+a = "guidepregstatus.txt"
+b = "guidepstackstatus.txt"
+c = "guidepflagstatus.txt"
+fr = open(a, "w+")
+fs = open(b, "w+")
+ff = open(c, "w+")
 def declaresynerror():
 	print "You made a syntax error"
 	sys.exit("Check your input")
@@ -12,10 +19,16 @@ def printstate():
 	print "Reg=> ",
 	for item in reg:
 		print item.name+":",item.val," ",
+		fr.write(str(item.val))
+		fr.write(" ")
 	print "\n"
+	fr.write("\n")
 	print "Stack=> ",
 	for item in stack:
 		print item
+		fs.write(str(item))
+		fs.write(" ")
+	fs.write("\n")
 	print "\n"
 	print "Flags=> ",
 	print "O:",flags.b.overflow,
@@ -28,7 +41,64 @@ def printstate():
 	print " P:",flags.b.parity,
 	print " C:",flags.b.carry,"\n"
 	#print "\n"
+	ff.write(str(flags.b.overflow))
+	ff.write(" ")
+	ff.write(str(flags.b.direction))
+	ff.write(" ")
+	ff.write(str(flags.b.interrupt))
+	ff.write(" ")
+	ff.write(str(flags.b.trap))
+	ff.write(" ")
+	ff.write(str(flags.b.sign))
+	ff.write(" ")
+	ff.write(str(flags.b.zero))
+	ff.write(" ")
+	ff.write(str(flags.b.ac))
+	ff.write(" ")
+	ff.write(str(flags.b.parity))
+	ff.write(" ")
+	ff.write(str(flags.b.carry))
+	ff.write("\n")
 
+def seek_line(offset):
+	fr.seek(0, 0)
+	fs.seek(0, 0)
+	ff.seek(0, 0)
+	linesr = fr.readlines()
+	liness = fs.readlines()
+	linesf = ff.readlines()
+	
+	i = 0
+	ilist = linesr[offset].split(" ")
+	ilist.pop()
+	for ip in ilist:
+		reg[i].val = int(ip)
+		i += 1
+
+	isstring = liness[offset]
+	if(isstring == '\n'):
+		stack = []
+	else:
+		islist = istring.split(' ')
+		stack = []
+		for item in islist:
+			stack.append(int(item))
+
+	columns = linesf[offset].split(" ")
+	flags.b.overflow = int(columns[0])
+	flags.b.direction = int(columns[1])
+	flags.b.interrupt = int(columns[2])
+	flags.b.trap = int(columns[3])
+	flags.b.sign = int(columns[4])
+	flags.b.zero = int(columns[5])
+	flags.b.ac = int(columns[6])
+	flags.b.parity = int(columns[7])
+	flags.b.carry = int(columns[8])
+	
+def close_some_files():
+	fr.close()
+	fs.close()
+	ff.close()
 
 def updatedep(plan):
 	if(plan <= 2):

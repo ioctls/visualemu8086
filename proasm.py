@@ -63,8 +63,9 @@ def startup():
 	print "We'll start with all flags with access set to 0."
 
 a = raw_input("Enter file name: ")
+print a
 filein = open(a)
-
+print "here"
 # Make another file to write in modified version
 c = a[:-4] + "sidekick.txt"
 fileout = open(c, "w")
@@ -149,3 +150,6 @@ for line in lines:
 		print lines2[ipass.lcount]
 		ipass.lcount += 1		
 	func.printstate()
+func.seek_line(5)
+func.printstate()
+func.close_some_files()
