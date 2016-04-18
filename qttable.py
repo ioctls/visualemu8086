@@ -4,20 +4,27 @@ from PyQt4.QtCore import *
 import sys
 from func import *
 from state import *
+import dbmg
 from table import *
-app = QApplication(sys.argv)
-table = QTableWidget()
+app 	= QApplication(sys.argv)
+table 	= QTableWidget()
 table1 = QTableWidget()
 table3 = QTableWidget()
 table4 = QTableWidget()
-tableItem = QTableWidgetItem()
-ex = 0
+tablei = QTableWidget()
+tableItem 	= QTableWidgetItem()
 row = 0
+ex  = 1
+ey = 1
+fi = ''
+trow = 0
 def endt():
     return app.exec_()
 
 def start(s):
     file = open(str(s))
+    global fi
+    fi = s
     #n_line = 0
     lin = file.readlines()
     global row
@@ -27,11 +34,13 @@ def start(s):
     file.close()
     
 class tables1:
-    def __init__(self):  
+    global ex
+    global ey
+    def printt(self):  
         
         z = 10
         # initiate table
-        table.setWindowTitle("P.A.S.S Assembler-cum-Debugger")
+        table.setWindowTitle("P.A.S.S Assembler-cum-Debugger ")
         #table.resize(1380, 80)
         #row = start()
         table.resize(500, 130)#35*row)
@@ -41,16 +50,18 @@ class tables1:
         def cellClick(row,col):
             global ex
             ex += 1
-            #print "Click on " + str(row) + " " + str(col) +  ": "
+            #print "ex", ex#print "Click on " + str(row) + " " + str(col) +  ": "
             string = table.item(row, col)
             print string.text()
             r = table.row(string)
             if r == 0:
                 t1 = tables2()
+                t1.printt()
             elif r == 1:
                 t3 = tables3()
             elif r == 2:
                 t4 = tables4()
+            endt()
                 
                 
             #print table.label()
@@ -93,17 +104,18 @@ class tables1:
 
 # on click function
         table.cellClicked.connect(cellClick)
-        i = 0
+        #print "rere"
         global ex
-        #print ex
-        while i <= ex:
-            i += 1
-            endt()
+        endt()
+        #print "ex", ex
+        #ez = ex + ey
+        
+        
         
 
             
 class tables2:
-    def __init__(self):  
+    def printt(self):  
         
         
         # initiate table
@@ -191,10 +203,6 @@ class tables2:
         
         
         table1.show()
-
-        #file.close()
-        i = table1.item(0, 0)
-        
         endt()
 
 class tables3:
@@ -283,7 +291,7 @@ class tables4:
         # set label
         table4.horizontalHeader().setStretchLastSection(True)
 
-        table4.setVerticalHeaderLabels(QString("Stack;;;").split(";"))
+        table4.setVerticalHeaderLabels(QString(";;;;;;;;;").split(";"))
         table4.setHorizontalHeaderLabels(QString("Stack;;;").split(";"))
      
         ct1 = ct
@@ -291,15 +299,94 @@ class tables4:
         while ct < ct1:
             table4.setItem(ct,0, QTableWidgetItem(str(stack[ct])))
             ct += 1
-                        
         table4.show()
 
         brush = QBrush(QColor(224, 255, 255))
         brush.setStyle(Qt.SolidPattern)
 
         ct = 0
-        while ct < ct1:
-            i = table1.item(ct, 0)
-            i.setBackground(brush)
-            ct += 1
+        
         endt()
+        
+class tablesi:
+    global ey
+    
+    def printt(self, kl):  
+            
+        z = 10
+
+        # initiate table
+        tablei.setWindowTitle("P.A.S.S Assembler-cum-Debugger ")
+            #table.resize(1380, 80)
+            #row = start()
+        global row
+        
+        tablei.resize(500, 34*(row-kl))
+        tablei.setRowCount(row - kl)
+        tablei.setColumnCount(1)
+        global trow
+        trow = row - kl
+        
+        def cellClick(row,col):
+            global ex
+            ex += 1
+            print "ey", ey
+            string = tablei.item(row, col)
+            #print string.text()
+            r = tablei.row(string)
+            func.seek_line(r)
+            dbmg.update_rec()
+            tt = tables1()
+            tt.printt()
+            endt()
+                    
+        
+            #print table.label()
+                #print table.visualRow(table.currentRow())
+
+            # set label
+            #table.setVerticalHeaderLabels(QString("Values:;").split(";"))
+        
+        tablei.horizontalHeader().setStretchLastSection(True)
+
+        tablei.setVerticalHeaderLabels(QString(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;").split(";"))
+        tablei.setHorizontalHeaderLabels(QString("Instructions;").split(";"))
+        global fi
+        file = open(str(fi))
+        lines = file.readlines()
+        counter = 0
+        rc = 0
+        for line in lines:
+            instruc = line
+            if counter < kl:
+                pass
+            else:
+                tablei.setItem(rc, 0, QTableWidgetItem("\t\t          "+str(instruc)))
+                rc += 1
+            counter += 1
+        brush = QBrush(QColor(238, 233, 233))
+        brush.setStyle(Qt.SolidPattern)
+        brush1 = QBrush(QColor(255, 250, 250))
+
+        qw = 0
+        while qw < trow:
+            if qw % 2 == 0:
+                i = tablei.item(qw, 0)
+                i.setBackground(brush)
+            else:     
+                i = tablei.item(qw, 0)
+                i.setBackground(brush1)
+            qw += 1
+            
+        tablei.show()
+      # on click function
+        tablei.cellClicked.connect(cellClick)
+            #print "rere"'
+        global ex
+        ex -= 1
+        while ex > 0:
+            ex -= 1
+            endt()
+       
+        
+        
