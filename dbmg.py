@@ -4,7 +4,7 @@ from func import *
 from state import *
 
 def start_tab():
-    conn = sqlite3.connect('reg4.db')
+    conn = sqlite3.connect('reg3.db')
     conn.execute('''CREATE Table reg \
                 (reg_id TEXT NOT NULL,
                 value   INT  NOT NULL);''')
