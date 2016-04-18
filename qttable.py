@@ -350,7 +350,7 @@ class tablesi:
         tablei.horizontalHeader().setStretchLastSection(True)
 
         tablei.setVerticalHeaderLabels(QString(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;").split(";"))
-        tablei.setHorizontalHeaderLabels(QString("Instructions;").split(";"))
+        tablei.setHorizontalHeaderLabels(QString("INSTRUCTIONS;").split(";"))
         global fi
         file = open(str(fi))
         lines = file.readlines()
