@@ -9,25 +9,25 @@ def declaresynerror():
 	sys.exit("Check your input")
 	
 def printstate():
-	print "Reg : ",
+	print "Reg=> ",
 	for item in reg:
-		print item.val,
+		print item.name+":",item.val," ",
 	print "\n"
-	print "Stack : ",
+	print "Stack=> ",
 	for item in stack:
 		print item
 	print "\n"
-	print "Flags : ",
-	print flags.b.overflow,
-	print flags.b.direction,
-	print flags.b.interrupt,
-	print flags.b.trap,
-	print flags.b.sign,
-	print flags.b.zero,
-	print flags.b.ac,
-	print flags.b.parity,
-	print flags.b.carry
-	print "\n"
+	print "Flags=> ",
+	print "O:",flags.b.overflow,
+	print " D:",flags.b.direction,
+	print " I:",flags.b.interrupt,
+	print " T:",flags.b.trap,
+	print " S:",flags.b.sign,
+	print " Z:",flags.b.zero,
+	print " AC:",flags.b.ac,
+	print " P:",flags.b.parity,
+	print " C:",flags.b.carry,"\n"
+	#print "\n"
 
 
 def updatedep(plan):
@@ -520,4 +520,3 @@ def fcmc():
 	flags.b.carry -= 1
 
 listoffunctions = [blank, fhlt, fmov, finc, fpop, fpush, fxor, fsub, fxchg, fmul, fnot, fbor, fand, fdec, fdiv, fadd, fstc, fstd, fsti, fclc, fcld, fcli, ftest, fcmc]
-		

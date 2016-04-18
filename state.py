@@ -32,6 +32,7 @@ class Flags(ctypes.Union):
                 ("asbyte", c_uint8)]
 
 class var_8(object):
+	name = ""
 	def __init__(self):
 		self.val = 00
 	def update(self):
@@ -61,6 +62,7 @@ class var_8(object):
 		else:
 			flags.b.parity = 0
 class var_16(object):
+	name = ""
 	def __init__(self):
 		self.val = 0000
 	def update(self):
@@ -91,6 +93,7 @@ class var_16(object):
 			flags.b.parity = 0		
 
 class special_var(object):
+	name = ""
 	def __init__(self, order):
 		self.val = 0000
 		self.order = order
@@ -150,26 +153,47 @@ class passer(object):
 ipass = passer()
 #CREATING Instances for each variable
 ah = var_8()
+ah.name = "ah"
 al = var_8()
+al.name = "al"
 bh = var_8()
+bh.name = "bh"
 bl = var_8()
+bl.name = "bl"
 ch = var_8()
+ch.name = "ch"
 cl = var_8()
+cl.name = "cl"
 dh = var_8()
+dh.name = "dh"
 dl = var_8()
+dl.name = "dl"
 di = var_16()
+di.name = "di"
 si = var_16()
+si.name = "si"
 bp = var_16()
+bp.name = "bp"
 sp = var_16()
+sp.name = "sp"
 ds = var_16()
+ds.name = "ds"
 es = var_16()
+es.name = "es"
 ss = var_16()
+ss.name = "ss"
 cs = var_16()
+cs.name = "cs"
 virgin =  var_8()
+virgin.name = "virgin"
 ax = special_var(1)
+ax.name = "ax"
 bx = special_var(3)
+bx.name = "bx"
 cx = special_var(5)
+cx.name = "cx"
 dx = special_var(7)
+dx.name = "dx"
 
 flags = Flags()
 flags.asbyte = 0x0

@@ -1,7 +1,38 @@
+.stack 106h
+.model small
+
+
 .code
 
 
-           
-	mov ah, 01
-	mov bl, 05
-	add al , bl
+
+
+
+
+mov ah, 201
+mov bh, 100
+sub ah, bh
+xchg ah, bh
+mov al, 20
+mul bh
+stc
+mul bh
+and bh, 0fh
+inc bl
+or ah, 05h
+std
+dec bh
+mul ax
+push ax
+sti
+not bh
+xor bh, 10h
+mov bl, 12h
+mul bl
+cmc
+pop ax
+mov ch, 07h
+mul ch
+test ch, 08h
+or ch, bh
+and bh, ch
