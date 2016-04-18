@@ -404,4 +404,3 @@ class tables4:
             i.setBackground(brush)
             ct += 1
         endt()
-t = tables4()
