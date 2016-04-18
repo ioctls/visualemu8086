@@ -91,37 +91,6 @@ class tables1:
 
         table.show()
 
-        '''
-        i = table.item(0, 0)
-        brush = QBrush(QColor(224, 255, 255))
-        brush.setStyle(Qt.SolidPattern)
-        i.setBackground(brush)
-        i.setTextColor(QColor(0, 0, 0))
-        i = table.item(1, 0)
-        i.setBackground(brush)
-        i = table.item(2, 0)
-        i.setBackground(brush)
-        i = table.item(3, 0)
-        i.setBackground(brush)
-        i = table.item(4, 0)
-        i.setBackground(brush)
-        '''
-        #item = QTableWidgetItem('bh')
-        #item.setBackground(QColor(100, 100, 100))
-        #table.setVerticalHeaderItem(0, item)
-        #table.verticalHeader().setStyle(QStyleFactory.create('CleanLooks'))
-        '''
-        table.horizontalHeaderItem(0).setTextColor(QColor(16,78,139))
-        table.horizontalHeaderItem(1).setTextColor(QColor(16,78,139))
-        table.horizontalHeaderItem(2).setTextColor(QColor(16,78,139))
-        table.horizontalHeaderItem(3).setTextColor(QColor(16,78,139))
-        table.horizontalHeaderItem(4).setTextColor(QColor(16,78,139))
-        table.horizontalHeaderItem(5).setTextColor(QColor(16,78,139))
-        table.horizontalHeaderItem(6).setTextColor(QColor(16,78,139))
-        #table.verticalHeaderItem(0).setBackground(brush)
-        #table.horizontalHeaderItem(0).setBackground(QColor(100, 100, 100))
-        '''
-
 # on click function
         table.cellClicked.connect(cellClick)
         i = 0
@@ -166,30 +135,6 @@ class tables2:
             table1.setItem(3,-11 + c, QTableWidgetItem(str(am)))
             c += 1
 
-        '''    
-        am = reg[2].val
-        table1.setItem(0,2, QTableWidgetItem(str(am)))
-        am = reg[3].val
-        table1.setItem(0,3, QTableWidgetItem(str(am)))
-        am = reg[4].val
-        table1.setItem(0,4, QTableWidgetItem(str(am)))
-        am = reg[5].val
-        table1.setItem(0,5, QTableWidgetItem(str(am)))
-        am = reg[6].val
-        table1.setItem(0,6, QTableWidgetItem(str(am)))
-        am = reg[7].val
-        table1.setItem(0,7, QTableWidgetItem(str(am)))
-        am = reg[8].val
-        table1.setItem(0,8, QTableWidgetItem(str(am)))
-        am = reg[9].val
-        table1.setItem(0,9, QTableWidgetItem(str(am)))
-        am = reg[10].val
-        table1.setItem(0,10, QTableWidgetItem(str(am)))
-        am = reg[11].val
-        table1.setItem(0,11, QTableWidgetItem(str(am)))
-        am = reg[12].val
-        table1.setItem(0,12, QTableWidgetItem(str(am)))
-        '''
         table.horizontalHeader().setStretchLastSection(True)
 
         i = table1.item(0, 0)
@@ -244,36 +189,12 @@ class tables2:
         i = table1.item(3, 9)
         i.setBackground(brush1)
         
-        #i = table1.item(0, 12)
-        #i.setBackground(brush)
         
-        '''
-        file = open('sample.txt', "r")
-        lines3 = file.readlines()
-        j = 0
-        for line in lines3:
-            sam = line
-            table1.setItem(j,0, QTableWidgetItem(str(sam)))
-            j +=1
-        ''' 
         table1.show()
 
         #file.close()
         i = table1.item(0, 0)
-        '''
-        brush = QBrush(QColor(224, 255, 255))
-        brush.setStyle(Qt.SolidPattern)
-        i.setBackground(brush)
-        i.setTextColor(QColor(0, 0, 0))
-        i = table1.item(1, 0)
-        i.setBackground(brush)
-        i = table1.item(2, 0)
-        i.setBackground(brush)
-        i = table1.item(3, 0)
-        i.setBackground(brush)
-        i = table1.item(4, 0)
-        i.setBackground(brush)
-        '''
+        
         endt()
 
 class tables3:
@@ -286,9 +207,7 @@ class tables3:
         #table1.resize(150, 500)
         table3.setRowCount(1)
         table3.setColumnCount(9)
-        # set label
-        #table3.horizontalHeader().setStretchLastSection(True)
-
+       
         table3.setVerticalHeaderLabels(QString(";;;").split(";"))
         table3.setHorizontalHeaderLabels(QString("O;D;I;T;S;Z;AC;P;C;;;;;").split(";"))
      
@@ -314,29 +233,9 @@ class tables3:
         am = reg[8].val
         table3.setItem(0,8, QTableWidgetItem("            "+str(flags.b.carry)))
         am = reg[9].val
-        '''
-        table3.setItem(0,9, QTableWidgetItem(str(am)))
-        am = reg[10].val
-        table3.setItem(0,10, QTableWidgetItem(str(am)))
-        am = reg[11].val
-        table3.setItem(0,11, QTableWidgetItem(str(am)))
-        am = reg[12].val
-        table3.setItem(0,12, QTableWidgetItem(str(am)))
-
-        table3.horizontalHeader().setStretchLastSection(True)
-        '''
-        '''
-        file = open('sample.txt', "r")
-        lines3 = file.readlines()
-        j = 0
-        for line in lines3:
-            sam = line
-            table1.setItem(j,0, QTableWidgetItem(str(sam)))
-            j +=1
-        ''' 
+        
         table3.show()
 
-        #file.close()
         i = table3.item(0, 0)
         
         brush = QBrush(QColor(224, 255, 255))
